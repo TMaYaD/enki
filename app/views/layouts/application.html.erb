@@ -7,45 +7,65 @@
 <head>
   <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8"/>
   <title><%= yield(:page_title) || h(config[:title]) %></title>
-  <%= stylesheet_link_tag 'application' %>
+  <%= stylesheet_link_tag 'style' %>
   <%= javascript_include_tag 'jquery' %>
   <%= open_id_delegation_link_tags(h(config[:open_id_delegation, :server]), h(config[:open_id_delegation, :delegate])) if config[:open_id_delegation] %>
   <%= yield(:head) %>
 </head>
 <body>
-  <div id="page_container">
-    <h1 id="page_heading"><a href="<%= root_url %>"><%=h config[:title] %></a></h1>
+  <div id="header">
+    <div class="inside">
+      <div id="search">
+        <form method="get" id="sform" action="http://www.google.com/search">
+          <div class="searchimg"></div>
 
-    <div id="main">
-      <%= yield %>
+          <input type="text" id="q" value="" name="q" size="15" />
+          <input type="hidden" name="sitesearch" value="<%=h config[:url] %>" />
+      </form>
+      </div>
+
+      <h2><%= link_to config[:title], root_url %></h2>
+      <p class="description"><%=h config[:description] %></p>
     </div>
+  </div> <!-- [END] #header -->
 
-    <div id="navigation">
-      <h2>Pages</h2>
-      <ul>
-        <% page_links_for_navigation.each do |link| -%>
-          <li><%= link_to(h(link.name), link.url) %></li>
-        <% end -%>
-      </ul>
-      <% unless category_links_for_navigation.empty? -%>
-        <h2>Categories</h2>
+  <%= yield %>
+
+  <hr class="hide" />
+  <div id="ancillary">
+    <div class="inside">
+      <div class="block first">
+        <h2>About</h2>
+        <%# TODO: About section %>
+        <h2>Pages</h2>
         <ul>
+          <% page_links_for_navigation.each do |link| -%>
+            <li><%= link_to(h(link.name), link.url) %></li>
+          <% end -%>
+        </ul>
+      </div>
+      <div class="block">
+        <h2>Recently</h2>
+        <ul class="dates">
+          <% @more_posts.each do |post| %>
+            <li><a href="<%= url_for post %>"><span class="date"><%= post.published_at.strftime("%m.%d") %></span> <%=h post.title %></a></li>
+          <% end %>
+        </ul>
+      </div>
+      <div class="block">
+        <h2>Categories</h2>
+        <ul class="counts">
           <% category_links_for_navigation.each do |link| -%>
             <li><%= link_to(h(link.name), link.url) %></li>
           <% end -%>
         </ul>
-      <% end -%>
-      <form method="get" id="sform" action="http://www.google.com/search">
-        <div>
-          <h2><label for="q">Search</label></h2>
+      </div>
 
-          <input type="text" id="q" value="" name="q" />
-          <input type="hidden" name="sitesearch" value="<%=h config[:url] %>" />
-        </div>
-      </form>
+      <div class="clear"></div>
     </div>
+  </div> <!-- [END] #ancillary -->
 
-    <div id="footer"><%=h config[:title] %> &#169; <%=h config[:author, :name] %>. Valid <a href="http://validator.w3.org/check?uri=referer">XHTML</a> and <%= link_to "ATOM", "http://feedvalidator.org/check.cgi?url=#{h(config[:url])}/posts.atom" %>. Powered by <a href="http://www.enkiblog.com" title="A Ruby on Rails blogging app for the fashionable developer">Enki</a>.</div>
+  <div id="footer"><%=h config[:title] %> &#169; <%=h config[:author, :name] %>. Valid <a href="http://validator.w3.org/check?uri=referer">XHTML</a> and <%= link_to "ATOM", "http://feedvalidator.org/check.cgi?url=#{h(config[:url])}/posts.atom" %>. Powered by <a href="http://www.enkiblog.com" title="A Ruby on Rails blogging app for the fashionable developer">Enki</a>.</div>
   </div>
 </body>
 </html>

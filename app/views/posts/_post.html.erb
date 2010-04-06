@@ -1,13 +1,10 @@
-<h2><%= link_to(h(post.title), post_path(post)) %></h2>
-<div class="entrybody">
-  <%= post.body_html.untaint %>
-</div>
-<div class="meta">
-  <ul>
-    <li class="date">Posted on <%= format_post_date(post.published_at) %></li>
-    <li class="comments"><%= link_to(pluralize(post.approved_comments.size, "comment"), post_path(post, :anchor => 'comments')) %></li>
-    <% unless post.tags.empty? -%>
-    <li class="tags">Tagged <%= linked_tag_list(post.tags) %></li>
-    <% end -%>
-  </ul>
+<h3><%= link_to h(post.title), post_path(post), :rel => 'bookmark', :title => "Permanent Link to #{h(post.title)}" %></h3>
+
+<%= post.body_html.untaint %>
+
+<div class="details">
+  Posted at <%= format_post_date(post.published_at) %> |
+  <%= link_to(pluralize(post.approved_comments.size, "comment"), post_path(post, :anchor => 'comments')) %> |
+  <%= linked_tag_list(post.tags) unless post.tags.empty? %> |
+  <%= link_to 'read on', post_path(post), :class => 'read-on' %>
 </div>
