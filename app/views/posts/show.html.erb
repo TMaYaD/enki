@@ -5,30 +5,70 @@
 <% content_for(:page_title) do -%>
 <%=h post_title(@post) -%>
 <% end -%>
-<%= render :partial => 'posts/post', :locals => {:post => @post} %>
-<ol class="commentlist">
-  <% @post.approved_comments.each do |comment| -%>
-  <li<%= cycle ' class="alt"', '' %> id="comment-<%= comment.id %>">
-    <%= render :partial => 'comments/comment', :locals => {:comment => comment} %>
-  </li>
-  <% end -%>
-</ol>
-<div class="related">Looking for more? Head on over to the <%= link_to("archives", archives_path) %>.</div>
-<h2>Post a comment</h2>
-  <% unless @comment.errors.empty? -%>
-  <div class="errors">
-    <h3>Comment not added!</h3>
-    <ul>
-      <% @comment.errors.sort_by(&:first).each do |error| -%>
-        <li><%= format_comment_error(error) %></li>
+
+<div id="primary" class="single-@post">
+  <div class="inside">
+    <div class="primary">
+      <h1><%=h @post.title %></h1>
+      <%= @post.body_html.untaint %>
+    </div>
+    <hr class="hide" />
+    <div class="secondary">
+      <h2>About this entry</h2>
+      <div class="featured">
+        <p>You&rsquo;re currently reading &ldquo;<%=h @post.title %>,&rdquo; an entry on <%=h config[:name] %></p>
+        <dl>
+          <dt>Published:</dt>
+          <dd><%# TODO: time format ?the_time('n.j.y') ?> / <?php the_time('ga') ? %><%= format_post_date(@post.published_at) %></dd>
+        </dl>
+        <dl>
+        <dl>
+          <dt>Tags:</dt>
+          <dd><%= linked_tag_list(@post.tags) unless @post.tags.empty? %></dd>
+        </dl>
+<%# edit_post_link('Edit this entry.', '<dl><dt>Edit:</dt><dd> ', '</dd></dl>'); %>
+      </div>
+    </div>
+    <div class="clear"></div>
+  </div>
+</div><!-- [END] #primary -->
+
+<hr class="hide" />
+<div id="secondary">
+  <div class="inside">
+    <div class="comment-head">
+      <h2><%= pluralize(@post.approved_comments.size, "comment") %></h2>
+      <span class="details"><a href="#commentform">Add comment</a> | <%# TODO: comments_rss_link('comments rss') %> <a href="#what-is-comment-rss" class="help">[?]</a> | <a href="<%# TODO: trackback_url(true); %>">trackback uri</a> <a href="#what-is-trackback" class="help">[?]</a></span>
+    </div>
+
+    <ol id="comments" class="commentlist">
+      <% @post.approved_comments.each do |comment| -%>
+        <li<%= cycle ' class="alt"', '' %> id="comment-<%= comment.id %>">
+          <%= render :partial => 'comments/comment', :locals => {:comment => comment} %>
+        </li>
       <% end -%>
-    </ul>
+    </ol>
+    
+    <div class="related">Looking for more? Head on over to the <%= link_to("archives", archives_path) %>.</div>
+    <div id="comment-form">
+      <h3 class="formhead">Have your say</h3>
+      <% unless @comment.errors.empty? -%>
+        <div class="errors">
+          <h3>Comment not added!</h3>
+          <ul>
+            <% @comment.errors.sort_by(&:first).each do |error| -%>
+              <li><%= format_comment_error(error) %></li>
+            <% end -%>
+          </ul>
+        </div>
+      <% end -%>
+      <% form_for([@post, @comment], :id => 'commentform') do |form| -%>
+        <%= form.text_field 'author' %><p><label for="comment_author"><small>Name or <a href="http://openidexplained.com/">OpenID</a> (required)</small></label></p>
+        <%= form.text_area 'body', :id => 'comment', :class => 'commentbox' %>
+	<div class="formactions">
+	  <%= submit_tag "Add your comment", :class => "submit" %>
+	</div>
+      <% end -%>
+    </div>
   </div>
-  <% end -%>
-<% form_for([@post, @comment]) do |form| -%>
-  <div>
-    <p><%= form.text_field 'author' %><label for="comment_author"><small>Name or <a href="http://openidexplained.com/">OpenID</a> (required)</small></label></p>
-    <p><%= form.text_area 'body' %><br /><small>(<a href="http://lesstile.rubyforge.org">lesstile enabled</a> - surround code blocks with ---)</small></p>
-    <p><%= submit_tag "Add Comment" %></p>
-  </div>
-<% end -%>
+</div>

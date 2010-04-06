@@ -6,7 +6,7 @@
     <% if @posts.empty? -%>
       <h2 class="center">Not Found</h2>
       <p class="center">Sorry, but you are looking for something that isn't here.</p>
-      <%# TODO: php include (TEMPLATEPATH . "/searchform.php"); %>
+      <%# TODO: search logic %>
     <% else -%>
       <% @posts.each_with_index do |post,index| # We show full views for only two posts -%>
 	<div class="story <%= 'first' if index==0 %>">

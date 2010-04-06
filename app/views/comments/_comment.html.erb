@@ -1,4 +1,10 @@
-  <cite><%= author_link(comment) %></cite> says:
-  <br />
-  <small class="commentmetadata"><a href="#comment-<%= comment.id %>" title=""><%= format_comment_date(comment.created_at) %></a></small>
-  <p><%= comment.body_html.untaint %></p>
+<cite>
+  <span class="avatarspan"><%# TODO php echo get_avatar( $comment, 32 ); %></span>
+  <span class="author"><%= author_link(comment) %></span>
+  <span class="date"><%= format_comment_date(comment.created_at) %></span>
+</cite>
+<div class="content">
+  <%= comment.body_html.untaint %>
+</div>
+<div class="clear"></div>
+
