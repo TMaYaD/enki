@@ -38,7 +38,7 @@
         <h2>About</h2>
         <%# TODO: About section %>
         <h2>Pages</h2>
-        <ul>
+        <ul class="pages">
           <% page_links_for_navigation.each do |link| -%>
             <li><%= link_to(h(link.name), link.url) %></li>
           <% end -%>
@@ -53,8 +53,8 @@
         </ul>
       </div>
       <div class="block">
-        <h2>Categories</h2>
-        <ul class="counts">
+        <h2>Tags</h2>
+        <ul class="cloud">
           <% category_links_for_navigation.each do |link| -%>
             <li><%= link_to(h(link.name), link.url) %></li>
           <% end -%>

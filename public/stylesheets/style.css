@@ -411,17 +411,29 @@ label.text{
   margin:0 0 2em 0;
 }
 
-ul.dates, ul.counts, ul.blogroll ul, ul.pages{
+ul.dates, ul.counts, ul.cloud, ul.blogroll ul, ul.pages{
   list-style-type:none;
   margin:1.5em 0 2em 0;
   border-top:1px solid #3D3D3D;
 }
-ul.dates li, ul.counts li, ul.blogroll ul li, ul.pages li{
+ul.cloud{
+  overflow:hidden;
+  text-align:justify;
+}
+ul.dates li, ul.counts li, ul.cloud li, ul.blogroll ul li, ul.pages li{
   list-style-type:none;
   margin:0;
   padding:0.5em 0;
   border-bottom:1px solid #3D3D3D;
 }
+ul.cloud li{
+  display:inline-block;
+  margin-left:-10px;
+  margin-right:-10px;
+  padding-left:10px;
+  padding-right:10px;
+}
+
 ul.dates .date{
   color:#858585;
   padding:0 1.5em 0 0;
@@ -432,11 +444,11 @@ ul.counts .count{
   color:#858585;
 }
 
-ul.dates a, ul.counts a, ul.blogroll a, ul.pages a{
+ul.dates a, ul.counts a, ul.cloud a, ul.blogroll a, ul.pages a{
   color:#BFBFBF;
   text-decoration:none;
 }
-ul.dates a:hover, ul.dates a:hover .date, ul.counts a:hover, ul.counts a:hover .count, ul.blogroll a:hover, ul.pages a:hover{ 
+ul.dates a:hover, ul.dates a:hover .date, ul.counts a:hover, ul.cloud a:hover, ul.counts a:hover .count, ul.blogroll a:hover, ul.pages a:hover{ 
   color:#FFF;
 }
 
