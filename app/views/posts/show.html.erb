@@ -22,10 +22,10 @@
           <dd><%# TODO: time format ?the_time('n.j.y') ?> / <?php the_time('ga') ? %><%= format_post_date(@post.published_at) %></dd>
         </dl>
         <dl>
-        <dl>
           <dt>Tags:</dt>
           <dd><%= linked_tag_list(@post.tags) unless @post.tags.empty? %></dd>
         </dl>
+	<%= image_tag "http://qrcode.kaywa.com/img.php?s=5&d=" + url_for(:only_path => false), :alt => 'QR Code for this post' %>
 <%# edit_post_link('Edit this entry.', '<dl><dt>Edit:</dt><dd> ', '</dd></dl>'); %>
       </div>
     </div>
